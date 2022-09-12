@@ -12,14 +12,21 @@ def generate_random_num(num_count,min_num,max_num):
     for i in range(num_count):
         num_list.append(random.randint(min_num,max_num))
     return num_list
+
+#To check any invalid value
+def check_invalid_value(value,min_value,max_value):
+    if value < min_value or value > max_value:
+        return True
+    else:
+        return False
     
 #Printing to the console in json format
 #Takes sensor data and sensor parameter name as input
 def print_in_json(first_sensor_parameter, first_sensor_data, second_sensor_parameter, second_sensor_data):
     for i in range(len(first_sensor_data)):
-        if first_sensor_data[i] < FIRST_SENSOR_MIN_VALUE or first_sensor_data[i] > FIRST_SENSOR_MAX_VALUE:
+        if check_invalid_value(first_sensor_data[i],FIRST_SENSOR_MIN_VALUE,FIRST_SENSOR_MAX_VALUE):   
             first_sensor_data[i] = "INVALID VALUE";
-        if second_sensor_data[i] < SECOND_SENSOR_MIN_VALUE or second_sensor_data[i] > SECOND_SENSOR_MAX_VALUE:
+        if check_invalid_value(second_sensor_data[i],SECOND_SENSOR_MIN_VALUE,SECOND_SENSOR_MAX_VALUE): 
             second_sensor_data[i] = "INVALID VALUE";
         print('{{"{0}":{1}, "{2}":{3}}}\n'.format(first_sensor_parameter, first_sensor_data[i], second_sensor_parameter, second_sensor_data[i]))
 
@@ -31,3 +38,4 @@ def main_func():
 
 if __name__ == '__main__':
     main_func()
+

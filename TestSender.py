@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch 
 import Sender
-from Sender import generate_random_num, print_in_json, main_func
+from Sender import generate_random_num, print_in_json, main_func, check_invalid_value
 
 class TestSender(unittest.TestCase):
     
@@ -87,6 +87,15 @@ class TestSender(unittest.TestCase):
         main_func()
         self.assertEqual(mock_generate_random_num.call_count,2)
         self.assertEqual(mock_print_in_json.call_count,1)
+
+    #Test check_invalid_value
+    def test_check_invalid_value(self):
+        self.assertFalse(check_invalid_value(20,0,45))
+        self.assertTrue(check_invalid_value(-1,0,45))
+        self.assertTrue(check_invalid_value(46,0,45))
+        self.assertFalse(check_invalid_value(20,0,100))
+        self.assertTrue(check_invalid_value(-1,0,100))
+        self.assertTrue(check_invalid_value(101,0,100))
       
 if __name__ == '__main__':
     unittest.main()
