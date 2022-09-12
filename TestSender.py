@@ -8,10 +8,64 @@ class TestSender(unittest.TestCase):
     #Test print_in_json()
     #Mocking print function
     @patch('builtins.print')
-    def test_print_in_json(self,mock_print):
+    def test_print_in_json_valid_value(self,mock_print):
         temperature_list = [25]
         soc_list = [50]
-        output_format_json = '{{{0}:{1}, {2}:{3}}}\n'.format("temperature",temperature_list[0],"soc",soc_list[0])
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature",temperature_list[0],"soc",soc_list[0])
+        print_in_json("temperature",temperature_list,"soc",soc_list)
+        mock_print.assert_called_with(output_format_json)
+
+    #Test print_in_json() for temperature less than min
+    @patch('builtins.print')
+    def test_temperature_less_than_min(self,mock_print):
+        temperature_list = [-1]
+        soc_list = [0]
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc",soc_list[0])
+        print_in_json("temperature",temperature_list,"soc",soc_list)
+        mock_print.assert_called_with(output_format_json)
+
+    #Test print_in_json() for temperature greater than max
+    @patch('builtins.print')
+    def test_temperature_greater_than_max(self,mock_print):
+        temperature_list = [46]
+        soc_list = [100]
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc",soc_list[0])
+        print_in_json("temperature",temperature_list,"soc",soc_list)
+        mock_print.assert_called_with(output_format_json)
+
+    #Test print_in_json() for soc less than min
+    @patch('builtins.print')
+    def test_soc_less_than_min(self,mock_print):
+        temperature_list = [0]
+        soc_list = [-1]
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature",temperature_list[0],"soc","INVALID VALUE")
+        print_in_json("temperature",temperature_list,"soc",soc_list)
+        mock_print.assert_called_with(output_format_json)
+
+    #Test print_in_json() for soc greater than max
+    @patch('builtins.print')
+    def test_soc_greater_than_max(self,mock_print):
+        temperature_list = [45]
+        soc_list = [101]
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature",temperature_list[0],"soc","INVALID VALUE")
+        print_in_json("temperature",temperature_list,"soc",soc_list)
+        mock_print.assert_called_with(output_format_json)
+
+    #Test print_in_json() for both temperature and soc less than min
+    @patch('builtins.print')
+    def test_temperature_soc_less_than_min(self,mock_print):
+        temperature_list = [-1]
+        soc_list = [-1]
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc","INVALID VALUE")
+        print_in_json("temperature",temperature_list,"soc",soc_list)
+        mock_print.assert_called_with(output_format_json)
+
+    #Test print_in_json() for both temperature and soc greater than max
+    @patch('builtins.print')
+    def test_temperature_soc_greater_than_max(self,mock_print):
+        temperature_list = [46]
+        soc_list = [101]
+        output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc","INVALID VALUE")
         print_in_json("temperature",temperature_list,"soc",soc_list)
         mock_print.assert_called_with(output_format_json)
 
@@ -33,6 +87,6 @@ class TestSender(unittest.TestCase):
         main_func()
         self.assertEqual(mock_generate_random_num.call_count,2)
         self.assertEqual(mock_print_in_json.call_count,1)
-        
+      
 if __name__ == '__main__':
     unittest.main()
