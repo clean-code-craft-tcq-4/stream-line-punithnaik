@@ -46,3 +46,6 @@ jobs:
           name: coverage
           path: ./htmlcov
           retention-days: 21
+      - name: Integrated Workflow
+        run: |
+          python Sender.py | Receiver.py
