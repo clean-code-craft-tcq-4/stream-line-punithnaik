@@ -35,14 +35,4 @@ jobs:
           name: coverage
           path: ./htmlcov
           retention-days: 21
-      - name: Run and collect coverage for receiver
-        run: |
-          coverage run --branch TestReceiver.py
-          coverage html
-          coverage report
-      - name: Upload coverage for Receiver
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage_receiver
-          path: ./htmlcov
-          retention-days: 21
+          
