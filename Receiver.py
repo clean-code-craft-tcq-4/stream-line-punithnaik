@@ -1,6 +1,7 @@
 import sys
 import json
 
+from Constants import UNSUPPORTED_STATISTICS_TYPE, INVALID_VALUE, MINIMUM, MAXIMUM, SIMPLE_MOVING_AVERAGE
 from StatisticsFactory import StatisticsFactory
 
 class Receiver:
@@ -10,7 +11,7 @@ class Receiver:
         self.statistical_factory = StatisticsFactory()
     
     def ignore_invalid_data(self, processed_readings):
-        return [datum for datum in processed_readings if "INVALID VALUE" not in datum.values()]
+        return [datum for datum in processed_readings if INVALID_VALUE not in datum.values()]
 
     def receive_data_from_sender(self):
         lines = filter(None, (line.rstrip() for line in sys.stdin))
@@ -31,7 +32,7 @@ class Receiver:
             if stat_computer is not None:
                 statistics.update({stat_name: stat_computer(data)})
             else:
-                raise ValueError("Unsupported Statistics Type")
+                raise ValueError(UNSUPPORTED_STATISTICS_TYPE)
         return statistics
 
     def consolidate_statistical_data(self, sensor_data):
@@ -50,5 +51,5 @@ class Receiver:
 
 if __name__ == '__main__':
     receiver = Receiver() # pragma: no cover
-    receiver.configure_statistics(["Min", "Max", "SMA"]) # pragma: no cover
+    receiver.configure_statistics([MINIMUM, MAXIMUM, SIMPLE_MOVING_AVERAGE]) # pragma: no cover
     receiver.receive_and_analyze() # pragma: no cover
