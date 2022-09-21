@@ -4,7 +4,7 @@ from io import StringIO
 import sys
 import io
 import ReceiverTestData
-from Constants import SIMPLE_MOVING_AVERAGE, UNSUPPORTED_STATISTICS_TYPE, MINIMUM, MAXIMUM, MEDIAN
+from Constants import SIMPLE_MOVING_AVERAGE, UNSUPPORTED_STATISTICS_TYPE, MINIMUM, MAXIMUM, MEDIAN, MODE
 from Receiver import Receiver
 from MockSender import MockSender
 from StatisticsComputer import StatisticsComputer
@@ -44,8 +44,8 @@ class TestStatisticsFactory(unittest.TestCase):
         self.statistical_factory = StatisticsFactory()
 
     def test_get_statistical_func_by_name(self):
-        self.assertEqual(self.statistical_factory.get_statistical_func_by_name("Min").__name__, StatisticsComputer().compute_minimum_value.__name__)
-        self.assertEqual(self.statistical_factory.get_statistical_func_by_name("Median"), None)
+        self.assertEqual(self.statistical_factory.get_statistical_func_by_name(MINIMUM).__name__, StatisticsComputer().compute_minimum_value.__name__)
+        self.assertEqual(self.statistical_factory.get_statistical_func_by_name(MEDIAN), None)
 
 class TestReceiver(unittest.TestCase):
     def __init__(self, method_name: str = ...) -> None:
@@ -81,14 +81,14 @@ class TestReceiver(unittest.TestCase):
             data.get(ReceiverTestData.STATISTICS))
         
             receiver = Receiver()
-            receiver.configure_statistics([MEDIAN])
+            receiver.configure_statistics([MODE])
             with self.assertRaises(ValueError) as context:
                 receiver.compute_statistics(data.get(ReceiverTestData.SENSOR_READINGS))
 
             self.assertEqual(str(context.exception), UNSUPPORTED_STATISTICS_TYPE)
 
     def test_consolidate_statistical_data(self):
-        for data in ReceiverTestData.VALIDATE_STATISTICS_COMPUTATION:
+        for data in ReceiverTestData.VALIDATE_CONSOLIDATION:
             self.assertEqual(
                 self.receiver.consolidate_statistical_data(
                     data.get(ReceiverTestData.SENSOR_READINGS)),
