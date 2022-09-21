@@ -48,4 +48,4 @@ jobs:
           retention-days: 21
       - name: Integrated Workflow
         run: |
-          python Sender.py | Receiver.py
+          python Sender.py | python Receiver.py
