@@ -1,5 +1,6 @@
 import random
 
+#ReqID S2
 NUMBER_OF_SENSOR_VALUES = 50
 
 #Add sensors here
@@ -8,6 +9,7 @@ sensor = ["temperature","soc"]
 #Set min and max values for sensors
 min_max_values = {sensor[0]:[0,45],sensor[1]:[0,100]}
 
+#ReqID S1
 #Generate random number
 def generate_random_num(num_count,min_num,max_num):
     num_list = []
@@ -15,6 +17,7 @@ def generate_random_num(num_count,min_num,max_num):
         num_list.append(random.randint(min_num,max_num))
     return num_list
 
+#ReqID S4
 #To check any invalid value
 def check_invalid_value(value,min_value,max_value):
     if value < min_value or value > max_value:
@@ -27,7 +30,8 @@ def get_data_length(data):
         return [len(value) for key,value in data.items()][0]
     else:
         return 0
-    
+
+#ReqID S3    
 #Printing to the console in json format
 #Takes sensor data and sensor parameter name as input
 def print_in_json(data):
