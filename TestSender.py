@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch 
 import Sender
-from Sender import generate_random_num, print_in_json, main_func, check_invalid_value
+from Sender import generate_random_num, print_in_json, main_func, check_invalid_value, get_data_length
 
 class TestSender(unittest.TestCase):
     
@@ -96,6 +96,12 @@ class TestSender(unittest.TestCase):
         self.assertFalse(check_invalid_value(20,0,100))
         self.assertTrue(check_invalid_value(-1,0,100))
         self.assertTrue(check_invalid_value(101,0,100))
+
+   #Test get_data_length
+    def test_get_data_length(self):
+        self.assertTrue(get_data_length({"temperature":[0,1],"soc":[5,2]}) == 2)
+        self.assertTrue(get_data_length(0) == 0)
+        self.assertTrue(get_data_length({"temperature":[]}) == 0)
       
 if __name__ == '__main__':
     unittest.main()

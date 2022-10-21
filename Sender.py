@@ -21,21 +21,24 @@ def check_invalid_value(value,min_value,max_value):
         return True
     else:
         return False
+
+def get_data_length(data):
+    if isinstance(data,dict):
+        return [len(value) for key,value in data.items()][0]
+    else:
+        return 0
     
 #Printing to the console in json format
 #Takes sensor data and sensor parameter name as input
 def print_in_json(data):
-    printing_format = ""
-    data_length = [len(value) for key,value in data.items()][0] #Get length of data
+    data_length = get_data_length(data)
     for data_index in range(data_length):
         printing_format = '{{'
         for sensor in data:
             if check_invalid_value(data[sensor][data_index],min_max_values[sensor][0],min_max_values[sensor][1]):
                 data[sensor][data_index] = "INVALID VALUE";
-            printing_format = printing_format + '"{0}":{1}'.format(sensor, data[sensor][data_index])
-            printing_format = printing_format + ', '
-        printing_format = printing_format[:len(printing_format)-2]
-        printing_format = printing_format + '}}\n'
+            printing_format = printing_format + '"{0}":{1}'.format(sensor, data[sensor][data_index]) + ', '
+        printing_format = printing_format[:len(printing_format)-2] + '}}\n'
         print(printing_format.format())
 
 #Program starts here
