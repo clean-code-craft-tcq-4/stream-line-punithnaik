@@ -12,7 +12,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [25]
         soc_list = [50]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature",temperature_list[0],"soc",soc_list[0])
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test print_in_json() for temperature less than min
@@ -21,7 +21,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [-1]
         soc_list = [0]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc",soc_list[0])
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test print_in_json() for temperature greater than max
@@ -30,7 +30,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [46]
         soc_list = [100]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc",soc_list[0])
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test print_in_json() for soc less than min
@@ -39,7 +39,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [0]
         soc_list = [-1]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature",temperature_list[0],"soc","INVALID VALUE")
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test print_in_json() for soc greater than max
@@ -48,7 +48,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [45]
         soc_list = [101]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature",temperature_list[0],"soc","INVALID VALUE")
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test print_in_json() for both temperature and soc less than min
@@ -57,7 +57,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [-1]
         soc_list = [-1]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc","INVALID VALUE")
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test print_in_json() for both temperature and soc greater than max
@@ -66,7 +66,7 @@ class TestSender(unittest.TestCase):
         temperature_list = [46]
         soc_list = [101]
         output_format_json = '{{"{0}":{1}, "{2}":{3}}}\n'.format("temperature","INVALID VALUE","soc","INVALID VALUE")
-        print_in_json("temperature",temperature_list,"soc",soc_list)
+        print_in_json({"temperature":temperature_list,"soc":soc_list})
         mock_print.assert_called_with(output_format_json)
 
     #Test generate_random_num() if number of values is 0
